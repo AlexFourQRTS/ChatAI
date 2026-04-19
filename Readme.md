@@ -1,38 +1,22 @@
-Действие,Команда
-Склонировать репозиторий 
-git clone <url>
+Action,Command
+Clone a repository,git clone <url>
+Create and switch to a new branch,git checkout -b <branch_name>
+Add changes to the staging area,git add . (all files) or git add <file>
+Commit your changes,"git commit -m ""your message"""
+Push to the cloud,git push origin <branch_name>
+Update local code (pull),git pull origin <branch_name>
 
-Создать ветку и перейти в нее
-git checkout -b <название_ветки>
+Main Types:
+feat: A new feature.
 
-Добавить изменения в индекс
-git add . (все файлы) или git add <файл>
+fix: A bug fix.
 
-Зафиксировать изменения
-"git commit -m ""сообщение"""
+docs: Changes in documentation.
 
-Отправить в облако (push),
-git push origin <название_ветки>
+style: Formatting and code style (spaces, semicolons — no logic changes).
 
-Обновить локальный код (pull),
-git pull origin <название_ветки>
+refactor: Code changes that neither fix a bug nor add a feature.
 
-Основные типы:
-feat: Новая функциональность.
+test: Adding or fixing tests.
 
-fix: Исправление ошибки.
-
-docs: Изменения в документации.
-
-style: Правки по кодстайлу (пробелы, точки с запятой — не влияет на логику).
-
-refactor: Правка кода, которая не исправляет баг и не добавляет фичу.
-
-test: Добавление или исправление тестов.
-
-chore: Обновление зависимостей, сборки и т.д.
-
-
-
-
-
+chore: Updating dependencies, build tools, etc.
