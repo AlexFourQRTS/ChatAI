@@ -1,12 +1,25 @@
 Action,Command
-Clone a repository,git clone <url>
-Create and switch to a new branch,git checkout -b <branch_name>
-Add changes to the staging area,git add . (all files) or git add <file>
-Commit your changes,"git commit -m ""your message"""
-Push to the cloud,git push origin <branch_name>
-Update local code (pull),git pull origin <branch_name>
+
+Clone a repository,
+git clone <url>
+
+Create and switch to a new branch,
+git checkout -b <branch_name>
+
+Add changes to the staging area,
+git add . (all files) or git add <file>
+
+Commit your changes,
+"git commit -m ""your message"""
+
+Push to the cloud,
+git push origin <branch_name>
+
+Update local code (pull),
+git pull origin <branch_name>
 
 Main Types:
+
 feat: A new feature.
 
 fix: A bug fix.
