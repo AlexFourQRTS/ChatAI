@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" disabled="true" aria-hidden="true">
+        <ion-icon slot="icon-only" color="primary" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="chat-content">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Profile</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="chat-thread ion-padding">
+    @for (line of messages(); track $index) {
+      <div class="bubble-row" [class.user]="line.role === 'user'" [class.bot]="line.role === 'bot'">
+        @if (line.role === 'bot') {
+          <ion-icon class="side-icon" name="chatbubble-ellipses-outline" color="medium" aria-hidden="true"></ion-icon>
+        }
+        <div class="bubble" [class.user]="line.role === 'user'" [class.bot]="line.role === 'bot'">
+          {{ line.text }}
+        </div>
+        @if (line.role === 'user') {
+          <ion-icon class="side-icon" name="person-outline" color="primary" aria-hidden="true"></ion-icon>
+        }
+      </div>
+    }
+  </div>
+</ion-content>
+
+<ion-footer class="chat-footer">
+  <div class="composer">
+    <ion-textarea
+      class="chat-input"
+      [value]="draft()"
+      (ionInput)="onDraftInput($event)"
+      [autoGrow]="true"
+      rows="1"
+      placeholder="Message…"
+      inputmode="text"
+      (keydown.control.enter)="send(); $event.preventDefault()"
+      (keydown.meta.enter)="send(); $event.preventDefault()"
+    ></ion-textarea>
+    <ion-button class="send-btn" (click)="send()">
+      <ion-icon slot="start" name="send-outline" aria-hidden="true"></ion-icon>
+      Send
+    </ion-button>
+  </div>
+</ion-footer>

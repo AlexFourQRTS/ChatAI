@@ -1,0 +1,47 @@
+.api-demo-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ion-color-medium);
+}
+
+.intro-icon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.api-demo-intro code {
+  font-size: 12px;
+  word-break: break-all;
+}
+
+ion-button {
+  margin-bottom: 16px;
+}
+
+.loading-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0;
+  color: var(--ion-color-medium);
+}
+
+.fallback-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--ion-color-warning-shade, #b8860b);
+}
+
+.fallback-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}

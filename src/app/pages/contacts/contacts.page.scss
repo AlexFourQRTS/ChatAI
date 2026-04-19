@@ -1,0 +1,43 @@
+.scroll-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  line-height: 1.45;
+}
+
+.intro-icon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.scroll-block {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--ion-color-light-shade, rgba(0, 0, 0, 0.08));
+}
+
+.scroll-block-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: var(--ion-text-color);
+}
+
+.title-icon {
+  font-size: 1.2rem;
+  color: var(--ion-color-primary);
+  flex-shrink: 0;
+}
+
+.scroll-block-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ion-color-medium-shade, #555);
+}

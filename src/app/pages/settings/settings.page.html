@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" disabled="true" aria-hidden="true">
+        <ion-icon slot="icon-only" color="primary" name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Settings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <p class="api-demo-intro">
+    <ion-icon name="cloud-offline-outline" class="intro-icon" color="medium" aria-hidden="true"></ion-icon>
+    Data loads through <code>ApiClient.getContacts()</code> (minimum spinner time + real HTTP; falls back to
+    demo rows if the server is down).
+  </p>
+
+  <ion-button size="small" fill="outline" (click)="load()">
+    <ion-icon slot="start" name="refresh-outline" aria-hidden="true"></ion-icon>
+    Reload
+  </ion-button>
+
+  @if (loading()) {
+    <div class="loading-row">
+      <ion-spinner name="crescent"></ion-spinner>
+      <span>Loading…</span>
+    </div>
+  } @else {
+    @if (usedFallback()) {
+      <p class="fallback-note">
+        <ion-icon name="warning-outline" class="fallback-icon" aria-hidden="true"></ion-icon>
+        Server unreachable — showing static demo contacts.
+      </p>
+    }
+    <ion-list inset="true" lines="full">
+      @for (c of contacts(); track c.id) {
+        <ion-item>
+          <ion-icon slot="start" name="person-outline" color="primary" aria-hidden="true"></ion-icon>
+          <ion-label>
+            <h3>{{ c.displayName }}</h3>
+            @if (c.username) {
+              <p>&#64;{{ c.username }}</p>
+            }
+          </ion-label>
+          <ion-note slot="end">{{ c.id }}</ion-note>
+        </ion-item>
+      }
+    </ion-list>
+  }
+</ion-content>

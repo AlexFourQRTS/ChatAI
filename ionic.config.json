@@ -1,0 +1,7 @@
+{
+  "name": "chatImg",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
