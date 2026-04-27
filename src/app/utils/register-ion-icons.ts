@@ -12,6 +12,7 @@ import {
   documentTextOutline,
   ellipsisVerticalOutline,
   eyeOutline,
+  flaskOutline,
   imagesOutline,
   layersOutline,
   listOutline,
@@ -58,5 +59,6 @@ export function registerAppIonIcons(): void {
     ellipsisVerticalOutline,
     eyeOutline,
     imagesOutline,
+    flaskOutline,
   });
 }

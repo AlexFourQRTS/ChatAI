@@ -62,43 +62,7 @@
   --ion-item-color: #e8edf3;
 }
 
-/* Messenger UI (Figma): tab bar active chip + prompt modal (ion-modal host is outside components). */
-ion-tab-bar.app-tab-bar {
-  --background: #ffffff;
-  border-top: 1px solid rgba(60, 60, 67, 0.12);
-  padding-top: 4px;
-  padding-bottom: env(safe-area-inset-bottom, 0);
-  height: calc(56px + env(safe-area-inset-bottom, 0));
-}
-
-ion-tab-bar.app-tab-bar ion-tab-button {
-  --color: #8e8e93;
-  --color-selected: #4a90e2;
-}
-
-ion-tab-bar.app-tab-bar ion-tab-button.tab-selected ion-icon {
-  padding: 8px;
-  border-radius: 12px;
-  background: rgba(74, 144, 226, 0.16);
-}
-
-ion-tab-bar.app-tab-bar ion-tab-button.tab-selected ion-label {
-  color: #4a90e2;
-  font-weight: 600;
-}
-
-.ion-palette-dark ion-tab-bar.app-tab-bar {
-  --background: var(--ion-tab-bar-background, #1c1c1d);
-  border-top-color: rgba(255, 255, 255, 0.1);
-}
-
-.ion-palette-dark ion-tab-bar.app-tab-bar ion-tab-button {
-  --color: var(--ion-color-medium, #98989f);
-}
-
-.ion-palette-dark ion-tab-bar.app-tab-bar ion-tab-button.tab-selected ion-icon {
-  background: rgba(74, 144, 226, 0.28);
-}
+/* Нижняя навигация: стили в `shell.page.scss` (`.app-bottom-nav`). */
 
 ion-modal.cd-prompt-modal {
   --width: min(94vw, 400px);

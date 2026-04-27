@@ -1,0 +1,12 @@
+:host ion-toolbar.inbox-ion-toolbar {
+  --background: transparent;
+  --border-width: 0;
+}
+
+ion-content.inbox-ion-content {
+  --background: transparent;
+}
+
+ion-content.inbox-ion-content ion-header[collapse='condense'] {
+  pointer-events: none;
+}

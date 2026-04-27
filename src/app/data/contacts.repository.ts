@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { ApiClient } from '../api/api.client';
 import type { Contact } from '../api/api.types';
-import { CONTACTS_DIRECTORY, type PicContact } from './contact-data';
+import { CONTACTS_DIRECTORY, type PicContact } from '../features/contacts/mock/contacts.mock';
 
 @Injectable({ providedIn: 'root' })
 export class ContactsRepository {

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { ApiClient } from '../api/api.client';
 import type { ChatPreview } from '../api/api.types';
-import { CHAT_THREADS, type ChatThread } from './chat-data';
+import { CHAT_THREADS, type ChatThread } from '../features/chat/mock/chat.mock';
 
 /**
  * Remote chats over HTTP (Angular HttpClient, same role as axios).

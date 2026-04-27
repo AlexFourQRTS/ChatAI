@@ -1,0 +1,74 @@
+<ion-header [translucent]="true" class="border-b border-zinc-200/80 dark:border-white/10">
+  <ion-toolbar class="inbox-ion-toolbar">
+    <ion-buttons slot="start" class="me-1">
+      <app-ai-messenger-icon [size]="28" />
+    </ion-buttons>
+    <ion-title class="text-center text-[1.05rem] font-bold text-zinc-900 dark:text-zinc-100">{{ appName }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="inbox-ion-content">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large" class="font-bold tracking-tight text-zinc-900 dark:text-zinc-100">{{ appName }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="min-h-full bg-zinc-100 pb-4 dark:bg-slate-950">
+    <div class="px-4 pb-3 pt-1">
+      <app-search-field placeholder="Search chats..." ariaLabel="Search chats" />
+    </div>
+
+    <div class="m-0 bg-white pb-3 dark:bg-slate-900" role="list">
+      @for (t of threads(); track t.id) {
+        <button
+          type="button"
+          class="flex w-full min-h-[72px] cursor-pointer appearance-none items-center border-0 border-b border-zinc-200/90 bg-white px-4 py-2.5 text-left font-inherit active:bg-zinc-100/90 dark:border-white/10 dark:bg-slate-900 dark:active:bg-slate-800/80"
+          role="listitem"
+          (click)="openThread(t.id)"
+        >
+          <div
+            class="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full text-lg font-bold text-white"
+            [style.background]="t.avatarColor"
+          >
+            {{ t.initials }}
+          </div>
+          <div class="ml-3 min-w-0 flex-1 py-2.5">
+            <div class="mb-1 flex items-baseline justify-between gap-3">
+              <span class="text-base font-bold text-zinc-900 dark:text-zinc-100">{{ t.name }}</span>
+              <span class="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">{{ t.time }}</span>
+            </div>
+            <div class="flex min-h-5 items-center gap-2.5">
+              @if (t.previewStrip) {
+                <div
+                  class="h-4 min-w-0 flex-1 rounded-md opacity-90"
+                  style="
+                    background: linear-gradient(
+                      90deg,
+                      #ff6b6b 0%,
+                      #feca57 18%,
+                      #48dbfb 40%,
+                      #ff9ff3 58%,
+                      #54a0ff 78%,
+                      #5f27cd 100%
+                    );
+                  "
+                  aria-hidden="true"
+                ></div>
+              } @else {
+                <p class="m-0 min-w-0 flex-1 truncate text-sm text-zinc-500 dark:text-zinc-400">{{ t.preview }}</p>
+              }
+              @if (t.unread) {
+                <span
+                  class="inline-flex h-[22px] min-w-[22px] shrink-0 items-center justify-center rounded-[11px] bg-blue-500 px-1.5 text-xs font-bold text-white dark:bg-sky-500"
+                >
+                  {{ t.unread > 99 ? '99+' : t.unread }}
+                </span>
+              }
+            </div>
+          </div>
+        </button>
+      }
+    </div>
+  </div>
+</ion-content>

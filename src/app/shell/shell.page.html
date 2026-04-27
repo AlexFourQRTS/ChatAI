@@ -1,0 +1,16 @@
+<div class="app-shell">
+  <ion-router-outlet class="app-shell__outlet"></ion-router-outlet>
+
+  <nav class="app-bottom-nav" aria-label="Основная навигация">
+    @for (item of navItems; track item.routerLink) {
+      <a
+        [routerLink]="item.routerLink"
+        class="app-bottom-nav__item"
+        [class.app-bottom-nav__item--active]="isNavActive(item)"
+      >
+        <ion-icon class="app-bottom-nav__icon" aria-hidden="true" [name]="item.icon"></ion-icon>
+        <span class="app-bottom-nav__label">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+</div>

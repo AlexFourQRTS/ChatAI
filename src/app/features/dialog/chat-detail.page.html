@@ -1,0 +1,141 @@
+<ion-header class="border-b border-zinc-200/80 dark:border-white/10" [translucent]="false">
+  <ion-toolbar class="cd-ion-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/chats" text="" class="cd-ion-back"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="cd-title-slot pointer-events-none">
+      <div class="inline-flex items-center gap-2.5">
+        <div
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+          [style.background]="thread().avatarColor"
+        >
+          {{ thread().initials }}
+        </div>
+        <div class="flex min-w-0 flex-col items-start text-left">
+          <span class="text-base font-bold leading-tight text-zinc-900 dark:text-zinc-100">{{ thread().name }}</span>
+          <span class="text-xs leading-tight text-zinc-500 dark:text-zinc-400">{{
+            thread().online ? 'online' : 'offline'
+          }}</span>
+        </div>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="cd-more-btn" aria-label="More">
+        <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="cd-ion-content">
+  <div class="min-h-full bg-zinc-100 dark:bg-slate-950">
+  <div class="flex flex-col gap-[18px] px-3.5 pb-24 pt-4">
+    @for (msg of messages(); track msg.id) {
+      <div class="flex max-w-full flex-col" [class.items-end]="msg.from === 'me'" [class.items-start]="msg.from !== 'me'">
+        <div
+          class="box-border max-w-[min(82%,320px)] overflow-hidden rounded-[18px] border"
+          [ngClass]="
+            msg.from === 'me'
+              ? 'border-sky-200 bg-sky-50 dark:border-sky-500/40 dark:bg-sky-950/50'
+              : 'border-zinc-200/90 bg-white dark:border-white/10 dark:bg-slate-800'
+          "
+        >
+          <div class="aspect-[4/3] min-h-[140px] w-full" [style.background]="msg.gradient"></div>
+        </div>
+        <div
+          class="mt-1.5 flex items-center gap-2 pl-1"
+          [class.flex-row-reverse]="msg.from === 'me'"
+          [class.pr-1]="msg.from === 'me'"
+          [class.pl-1]="msg.from !== 'me'"
+        >
+          <span class="text-xs text-zinc-500 dark:text-zinc-400">{{ msg.time }}</span>
+          <button
+            type="button"
+            class="inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 text-sm font-medium text-blue-500 dark:text-sky-400"
+            (click)="openPreview(msg)"
+          >
+            <ion-icon name="eye-outline" class="text-base" aria-hidden="true"></ion-icon>
+            Show
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+  </div>
+</ion-content>
+
+<ion-footer class="cd-ion-footer">
+  <div
+    class="flex items-center gap-2.5 border-t border-zinc-200/60 bg-white px-3.5 py-2.5 dark:border-white/10 dark:bg-slate-900"
+    style="padding-bottom: calc(10px + env(safe-area-inset-bottom, 0))"
+  >
+    <ion-icon
+      name="images-outline"
+      class="shrink-0 text-[1.35rem] text-zinc-500 dark:text-zinc-400"
+      aria-hidden="true"
+    ></ion-icon>
+    <input
+      type="text"
+      class="min-w-0 flex-1 rounded-full border-0 bg-zinc-200/90 px-4 py-3 text-[15px] text-zinc-900 outline-none placeholder:text-zinc-400 dark:bg-slate-800 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+      placeholder="Describe to generate or upload an image"
+      aria-label="Message"
+    />
+    <button
+      type="button"
+      class="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 bg-blue-500 text-white dark:bg-sky-500"
+      aria-label="Send"
+    >
+      <ion-icon name="send-outline" class="ml-0.5 text-xl" aria-hidden="true"></ion-icon>
+    </button>
+  </div>
+</ion-footer>
+
+<ion-modal
+  [isOpen]="modalOpen()"
+  (didDismiss)="closeModal()"
+  [backdropDismiss]="true"
+  cssClass="cd-prompt-modal"
+>
+  <ng-template>
+    <div class="cd-modal-card">
+      <div class="cd-modal-visual">
+        <div class="cd-modal-gradient" [style.background]="activeBubble()?.gradient ?? ''"></div>
+        <button type="button" class="cd-modal-close" (click)="closeModal()" aria-label="Close">
+          <ion-icon name="close-outline"></ion-icon>
+        </button>
+      </div>
+      <div class="cd-modal-body">
+        <p class="cd-modal-label">YOUR PROMPT</p>
+        <p class="cd-modal-prompt">{{ displayPrompt() }}</p>
+        @if (editPromptMode()) {
+          <div class="cd-modal-edit-card">
+            <p class="cd-modal-label">NEW PROMPT</p>
+            <input
+              type="text"
+              class="cd-modal-input"
+              [value]="draftPrompt()"
+              (input)="onDraftInput($event)"
+            />
+            <div class="cd-modal-edit-actions">
+              <button type="button" class="cd-link" (click)="cancelEditPrompt()">Cancel</button>
+              <button type="button" class="cd-apply" (click)="applyPromptEdit()">Apply</button>
+            </div>
+          </div>
+        }
+        <div class="cd-modal-actions">
+          <button type="button" class="cd-btn-outline" (click)="onRegenerate()">
+            <ion-icon name="refresh-outline" aria-hidden="true"></ion-icon>
+            Regenerate
+          </button>
+          <button type="button" class="cd-btn-solid" (click)="onSendFromModal()">
+            <ion-icon name="send-outline" aria-hidden="true"></ion-icon>
+            Send
+          </button>
+        </div>
+        @if (!editPromptMode()) {
+          <button type="button" class="cd-link cd-link-block" (click)="startEditPrompt()">Edit prompt</button>
+        }
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>

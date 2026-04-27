@@ -1,0 +1,14 @@
+/* Хост внутри ion-router-outlet: Ionic вешает .ion-page / .ion-page-invisible (см. @ionic/core/css/core.css).
+ * Залипшие классы снимает `ClearStuckIonPageHostDirective` (hostDirectives на страницах вкладок). */
+:host {
+  display: block;
+}
+
+ion-content.lab-ion-content {
+  --background: transparent;
+}
+
+:host ion-toolbar.lab-ion-toolbar {
+  --background: transparent;
+  --border-width: 0;
+}

@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  /** Console traces for theme / segment (filter: `[PicTalk:Theme]`). Off in prod. */
+  themeDebugLogs: true,
   /**
    * Same as `Exsample/src/constant.js` → `API_URL` (no trailing slash).
    * Override locally if you use another backend.

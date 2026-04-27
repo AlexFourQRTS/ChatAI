@@ -1,0 +1,91 @@
+<ion-header [translucent]="true" class="border-b border-zinc-200/80 dark:border-white/10">
+  <ion-toolbar class="settings-ion-toolbar">
+    <ion-title class="text-center text-[1.05rem] font-bold text-zinc-900 dark:text-zinc-100">Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="false" class="settings-ion-content">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large" class="font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Settings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div
+    class="min-h-full bg-zinc-100 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-zinc-900 dark:bg-slate-950 dark:text-zinc-100"
+  >
+    <div class="flex flex-col items-center px-6 pb-7 pt-2">
+      <div class="relative h-28 w-28 shrink-0 cursor-pointer" (click)="onChangePhoto()">
+        @if (profile().photoUrl) {
+          <img class="h-28 w-28 rounded-full object-cover" [src]="profile().photoUrl" alt="" />
+        } @else {
+          <div
+            class="flex h-28 w-28 items-center justify-center rounded-full text-3xl font-bold text-white"
+            [style.background]="profile().avatarColor"
+          >
+            {{ profile().initials }}
+          </div>
+        }
+        <ion-button
+          class="settings-camera-btn absolute -bottom-0.5 -right-0.5 m-0 h-9 w-9 shadow-md [--padding-start:0] [--padding-end:0]"
+          fill="solid"
+          shape="round"
+          aria-label="Change profile photo"
+          (click)="$event.stopPropagation(); onChangePhoto()"
+        >
+          <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <p class="mt-3 text-center text-xs text-zinc-500 dark:text-zinc-400">Tap to change photo</p>
+    </div>
+
+    <div class="relative z-10 max-w-full space-y-7 px-6 pb-8">
+      <div>
+        <div class="mb-1.5 flex items-center justify-between gap-3">
+          <span class="text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400">Name</span>
+          <ion-button
+            fill="clear"
+            size="small"
+            class="settings-edit-btn m-0 h-8 [--padding-start:6px] [--padding-end:6px]"
+            aria-label="Edit name"
+            (click)="onEditName()"
+          >
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-button>
+        </div>
+        <p class="m-0 text-lg font-medium leading-snug text-zinc-900 dark:text-zinc-100">{{ profile().displayName }}</p>
+      </div>
+
+      <div>
+        <span class="mb-1.5 block text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400"
+          >Phone</span
+        >
+        <p class="m-0 text-lg font-medium leading-snug text-zinc-900 dark:text-zinc-100">{{ profile().phone }}</p>
+      </div>
+
+      <div class="mt-2">
+        <span class="mb-2.5 block text-[11px] font-bold uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400"
+          >Appearance</span
+        >
+        <ion-segment
+          #themeSeg
+          class="settings-seg mt-2.5 max-w-full"
+          [value]="theme.mode()"
+          swipeGesture="false"
+          aria-label="Theme"
+          (ionChange)="onThemeSegment($event)"
+        >
+          <ion-segment-button value="light" class="settings-seg-btn">Light</ion-segment-button>
+          <ion-segment-button value="dark" class="settings-seg-btn">Dark</ion-segment-button>
+        </ion-segment>
+      </div>
+    </div>
+
+    <p
+      class="mx-5 mt-9 select-none text-center text-[clamp(1.15rem,4.2vw,1.45rem)] font-extrabold uppercase tracking-[0.22em] text-zinc-400 dark:text-zinc-500"
+      aria-label="Beta version"
+    >
+      {{ betaLabel }}
+    </p>
+  </div>
+</ion-content>

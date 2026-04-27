@@ -1,0 +1,51 @@
+/* Ionic CSS variables + collapse header tap fix (Tailwind handles the rest). */
+:host ion-toolbar.settings-ion-toolbar {
+  --background: transparent;
+  --border-width: 0 0 1px 0;
+  --border-color: rgba(24, 24, 27, 0.12);
+}
+
+:host-context(.ion-palette-dark) ion-toolbar.settings-ion-toolbar {
+  --border-color: rgba(255, 255, 255, 0.12);
+}
+
+ion-content.settings-ion-content {
+  --background: transparent;
+}
+
+ion-content.settings-ion-content ion-header[collapse='condense'] {
+  pointer-events: none;
+}
+
+ion-button.settings-camera-btn {
+  --background: #3b82f6;
+  --color: #fff;
+  --border-radius: 50%;
+}
+
+:host-context(.ion-palette-dark) ion-button.settings-camera-btn {
+  --background: #38bdf8;
+}
+
+ion-button.settings-edit-btn {
+  --color: #3b82f6;
+}
+
+:host-context(.ion-palette-dark) ion-button.settings-edit-btn {
+  --color: #38bdf8;
+}
+
+ion-segment.settings-seg ion-segment-button.settings-seg-btn {
+  min-height: 44px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: none;
+  --indicator-color: #3b82f6;
+  --color: #3b82f6;
+  --color-checked: #fff;
+}
+
+:host-context(.ion-palette-dark) ion-segment.settings-seg ion-segment-button.settings-seg-btn {
+  --indicator-color: #38bdf8;
+  --color: #38bdf8;
+}

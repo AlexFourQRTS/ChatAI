@@ -1,2 +1,5 @@
 @import "tailwindcss";
 @source "./**/*.{html,ts}";
+
+/* Match ThemeService: class `ion-palette-dark` on <html> (not `.dark`). */
+@custom-variant dark (&:where(.ion-palette-dark, .ion-palette-dark *));

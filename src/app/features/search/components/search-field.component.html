@@ -1,0 +1,16 @@
+<label
+  class="flex w-full items-center gap-2.5 rounded-full bg-zinc-200/90 px-3.5 py-2.5 dark:bg-slate-800/90"
+  [attr.aria-label]="ariaLabel()"
+>
+  <ion-icon
+    name="search-outline"
+    class="shrink-0 text-[1.15rem] text-zinc-500 dark:text-zinc-400"
+    aria-hidden="true"
+  ></ion-icon>
+  <input
+    type="search"
+    class="min-w-0 flex-1 border-0 bg-transparent text-base text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+    [placeholder]="placeholder()"
+    [attr.autocomplete]="autocomplete()"
+  />
+</label>

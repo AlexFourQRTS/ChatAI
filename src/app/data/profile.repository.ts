@@ -2,7 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { ApiClient } from '../api/api.client';
 import type { UserProfile } from '../api/api.types';
-import { SETTINGS_PROFILE_MOCK, type SettingsProfile } from './profile-data';
+import {
+  SETTINGS_PROFILE_MOCK,
+  type SettingsProfile,
+} from '../features/settings/mock/settings.mock';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileRepository {

@@ -1,0 +1,83 @@
+/**
+ * Колонка: контент (router outlet) + нижний navbar. `min-height: 0` у области outlet — чтобы
+ * `ion-content` внутри страниц мог скроллиться.
+ */
+:host {
+  display: block;
+  height: 100%;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-shell__outlet {
+  flex: 1 1 0;
+  min-height: 0;
+  position: relative;
+}
+
+.app-bottom-nav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  gap: 0;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-top: 1px solid rgba(60, 60, 67, 0.12);
+  padding-top: 4px;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  min-height: calc(56px + env(safe-area-inset-bottom, 0));
+}
+
+.app-bottom-nav__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 6px 4px 8px;
+  text-decoration: none;
+  color: #8e8e93;
+  font-size: 0.7rem;
+  font-weight: 500;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.app-bottom-nav__item--active {
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+.app-bottom-nav__icon {
+  font-size: 1.35rem;
+}
+
+.app-bottom-nav__item--active .app-bottom-nav__icon {
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(74, 144, 226, 0.16);
+}
+
+:host-context(.ion-palette-dark) .app-bottom-nav {
+  background: var(--ion-tab-bar-background, #1c1c1d);
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(.ion-palette-dark) .app-bottom-nav__item {
+  color: var(--ion-color-medium, #98989f);
+}
+
+:host-context(.ion-palette-dark) .app-bottom-nav__item--active {
+  color: #4a90e2;
+}
+
+:host-context(.ion-palette-dark) .app-bottom-nav__item--active .app-bottom-nav__icon {
+  background: rgba(74, 144, 226, 0.28);
+}
