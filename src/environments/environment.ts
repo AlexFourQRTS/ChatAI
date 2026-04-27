@@ -4,8 +4,13 @@
 
 export const environment = {
   production: false,
-  /** Base URL for ApiClient (no trailing slash). */
-  apiUrl: 'http://localhost:3000/api',
+  /**
+   * Same as `Exsample/src/constant.js` → `API_URL` (no trailing slash).
+   * Override locally if you use another backend.
+   */
+  apiUrl: 'https://brahmadzen.space/api/api',
+  /** Sent as `x-api-key` when set (empty = header omitted by client if you prefer). */
+  apiKey: '',
 };
 
 /*

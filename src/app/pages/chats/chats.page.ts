@@ -1,7 +1,7 @@
-import { Component, signal } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { Component, effect, ElementRef, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import {
-  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -9,47 +9,45 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { APP_NAME } from '../../app.constants';
+import { CHAT_THREADS } from '../../data/chat-data';
+import { ThemeService } from '../../core/theme.service';
+import { ChatRepository } from '../../data/chat.repository';
+import { miuHostStyle } from '../../miu/style-bridge';
+import { AiMessengerIconComponent } from './ai-messenger-icon.component';
+import { chatsPageMiuStyle } from './chats.page.style';
 
 @Component({
   selector: 'app-chats',
   templateUrl: './chats.page.html',
   styleUrls: ['./chats.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, IonIcon],
-  animations: [
-    trigger('fadeSlide', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(16px)' }),
-        animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })),
-      ]),
-      transition(':leave', [animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(-8px)' }))]),
-    ]),
-    trigger('scaleToggle', [
-      state('a', style({ transform: 'scale(1) rotate(0deg)' })),
-      state('b', style({ transform: 'scale(1.12) rotate(3deg)' })),
-      transition('a <=> b', [animate('700ms cubic-bezier(0.45, 0, 0.55, 1)')]),
-    ]),
-    trigger('shimmer', [
-      transition(
-        '* => *',
-        animate(
-          '1.2s ease-in-out',
-          keyframes([
-            style({ backgroundPosition: '0% 50%', offset: 0 }),
-            style({ backgroundPosition: '100% 50%', offset: 1 }),
-          ]),
-        ),
-      ),
-    ]),
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonIcon,
+    IonButtons,
+    AiMessengerIconComponent,
   ],
 })
 export class ChatsPage {
-  readonly scaleState = signal<'a' | 'b'>('a');
-  readonly shimmerTick = signal(0);
-  readonly showBanner = signal(true);
+  private readonly chatRepository = inject(ChatRepository);
+  private readonly theme = inject(ThemeService);
+  private readonly el = inject(ElementRef);
+  private readonly router = inject(Router);
 
   constructor() {
-    setInterval(() => this.scaleState.update((s) => (s === 'a' ? 'b' : 'a')), 900);
-    setInterval(() => this.shimmerTick.update((n) => n + 1), 1600);
-    setInterval(() => this.showBanner.update((v) => !v), 3200);
+    effect(() => {
+      const css = miuHostStyle(chatsPageMiuStyle(this.theme.mode() === 'dark'));
+      (this.el.nativeElement as HTMLElement).style.cssText = css;
+    });
+  }
+
+  readonly appName = APP_NAME;
+  readonly threads = toSignal(this.chatRepository.getThreads(), { initialValue: CHAT_THREADS });
+
+  openThread(id: string): void {
+    void this.router.navigate(['/tabs/chats/thread', id]);
   }
 }

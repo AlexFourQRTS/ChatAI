@@ -1,46 +1,70 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button fill="clear" disabled="true" aria-hidden="true">
-        <ion-icon slot="icon-only" color="primary" name="people-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Contacts</ion-title>
+<ion-header [translucent]="true" class="contacts-header">
+  <ion-toolbar class="contacts-toolbar">
+    <ion-title class="contacts-toolbar-title">Contacts</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="contacts-page">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Contacts</ion-title>
+      <ion-title size="large" class="contacts-large-title">Contacts</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <p class="scroll-intro">
-    <ion-icon name="reader-outline" class="intro-icon" aria-hidden="true"></ion-icon>
-    Long-scroll demo: many blocks so you can fling the page and feel native scrolling.
-  </p>
+  <div class="contacts-search-wrap">
+    <label class="contacts-search" aria-label="Search contacts">
+      <ion-icon name="search-outline" class="contacts-search-icon" aria-hidden="true"></ion-icon>
+      <input type="search" class="contacts-search-input" placeholder="Search contacts..." autocomplete="off" />
+    </label>
+  </div>
 
-  @for (n of blocks; track n) {
-    <article class="scroll-block">
-      <h2 class="scroll-block-title">
-        <ion-icon [name]="iconFor(n)" class="title-icon" aria-hidden="true"></ion-icon>
-        Block {{ n }}
-      </h2>
-      <p class="scroll-block-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-        ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum. Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius,
-        turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in
-        mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit.
-        Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus
-        a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien
-        sem, aliquet nec, commodo eget, consequat quis, neque. Aliquam faucibus, elit ut dictum aliquet, felis nisl
-        adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu.
-        Aliquam consequat.
-      </p>
-    </article>
-  }
+  <section class="contacts-section" aria-labelledby="contacts-on-heading">
+    <h2 id="contacts-on-heading" class="contacts-section-heading">{{ sectionOn }}</h2>
+    <div class="contacts-list" role="list">
+      @for (c of onPicTalk(); track c.id) {
+        <button
+          type="button"
+          class="contacts-row contacts-row-chat"
+          role="listitem"
+          (click)="openChat(c.id)"
+          [attr.aria-label]="'Open chat with ' + c.name"
+        >
+          <div class="contacts-avatar" [style.background]="c.avatarColor">{{ c.initials }}</div>
+          <div class="contacts-label">
+            <div class="contacts-name">{{ c.name }}</div>
+            <div class="contacts-phone">{{ c.phone }}</div>
+          </div>
+          <span class="contacts-chat-fab" aria-hidden="true">
+            <ion-icon name="chatbubble-outline"></ion-icon>
+          </span>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="contacts-section" aria-labelledby="contacts-invite-heading">
+    <h2 id="contacts-invite-heading" class="contacts-section-heading">{{ sectionInvite }}</h2>
+    <div class="contacts-list" role="list">
+      @for (c of inviteList(); track c.id) {
+        <div class="contacts-row contacts-row-invite" role="listitem">
+          <div class="contacts-avatar contacts-avatar-invite" aria-hidden="true">
+            <ion-icon name="person-add-outline"></ion-icon>
+          </div>
+          <div class="contacts-label">
+            <div class="contacts-name">{{ c.name }}</div>
+            <div class="contacts-phone">{{ c.phone }}</div>
+          </div>
+          <ion-button
+            type="button"
+            class="contacts-invite-btn"
+            fill="outline"
+            size="small"
+            (click)="onInvite(c, $event)"
+          >
+            Invite
+          </ion-button>
+        </div>
+      }
+    </div>
+  </section>
 </ion-content>

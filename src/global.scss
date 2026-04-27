@@ -32,6 +32,273 @@
  * https://ionicframework.com/docs/theming/dark-mode
  */
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+/* Class-based dark palette — toggled via `ThemeService` (`ion-palette-dark` on `<html>`). */
+@import "@ionic/angular/css/palettes/dark.class.css";
+
+/**
+ * Telegram-like night blues (approximation of classic TG Android “Night”).
+ * Works with `ion-palette-dark` + per-page `--pt-*` from `telegram-palette.ts`.
+ */
+.ion-palette-dark {
+  --ion-color-primary: #2ea6ff;
+  --ion-color-primary-rgb: 46, 166, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-background-color: #17212d;
+  --ion-background-color-rgb: 23, 33, 45;
+  --ion-text-color: #e8edf3;
+  --ion-text-color-rgb: 232, 237, 243;
+  --ion-toolbar-background: #17212d;
+  --ion-toolbar-color: #e8edf3;
+  --ion-item-background: #17212d;
+  --ion-card-background: #1e2b38;
+  --ion-border-color: #101922;
+  --ion-color-medium: #8596a8;
+  --ion-color-medium-rgb: 133, 150, 168;
+  --ion-color-light: #2b3d52;
+  --ion-color-light-rgb: 43, 61, 82;
+  --ion-tab-bar-background: #17212d;
+  --ion-tab-bar-border-color: #101922;
+  --ion-item-color: #e8edf3;
+}
+
+/* Messenger UI (Figma): tab bar active chip + prompt modal (ion-modal host is outside components). */
+ion-tab-bar.app-tab-bar {
+  --background: #ffffff;
+  border-top: 1px solid rgba(60, 60, 67, 0.12);
+  padding-top: 4px;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  height: calc(56px + env(safe-area-inset-bottom, 0));
+}
+
+ion-tab-bar.app-tab-bar ion-tab-button {
+  --color: #8e8e93;
+  --color-selected: #4a90e2;
+}
+
+ion-tab-bar.app-tab-bar ion-tab-button.tab-selected ion-icon {
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(74, 144, 226, 0.16);
+}
+
+ion-tab-bar.app-tab-bar ion-tab-button.tab-selected ion-label {
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+.ion-palette-dark ion-tab-bar.app-tab-bar {
+  --background: var(--ion-tab-bar-background, #1c1c1d);
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.ion-palette-dark ion-tab-bar.app-tab-bar ion-tab-button {
+  --color: var(--ion-color-medium, #98989f);
+}
+
+.ion-palette-dark ion-tab-bar.app-tab-bar ion-tab-button.tab-selected ion-icon {
+  background: rgba(74, 144, 226, 0.28);
+}
+
+ion-modal.cd-prompt-modal {
+  --width: min(94vw, 400px);
+  --height: auto;
+  --max-height: 88vh;
+  --border-radius: 28px;
+  --backdrop-opacity: 0.55;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #f5f5f7;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+}
+
+.ion-palette-dark ion-modal.cd-prompt-modal .cd-modal-card {
+  background: #1e2b38;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+}
+
+.ion-palette-dark ion-modal.cd-prompt-modal .cd-modal-label {
+  color: #8596a8;
+}
+
+.ion-palette-dark ion-modal.cd-prompt-modal .cd-modal-prompt {
+  color: #e8edf3;
+}
+
+.ion-palette-dark ion-modal.cd-prompt-modal .cd-modal-input {
+  background: #242f3d;
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #e8edf3;
+}
+
+.ion-palette-dark ion-modal.cd-prompt-modal .cd-modal-edit-card {
+  background: #232d3c;
+}
+
+.ion-palette-dark ion-modal.cd-prompt-modal .cd-btn-outline {
+  background: transparent;
+  border-color: #2ea6ff;
+  color: #2ea6ff;
+}
+
+.ion-palette-dark ion-modal.cd-prompt-modal .cd-btn-solid {
+  background: #2ea6ff;
+  color: #fff;
+}
+
+.ion-palette-dark ion-modal.cd-prompt-modal .cd-apply {
+  background: #2ea6ff;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-visual {
+  position: relative;
+  width: 100%;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-gradient {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 160px;
+  border-radius: 28px 28px 0 0;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  ion-icon {
+    font-size: 1.35rem;
+    color: #3c3c43;
+  }
+}
+
+ion-modal.cd-prompt-modal .cd-modal-body {
+  padding: 20px 22px 22px;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-label {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #8e8e93;
+  text-transform: uppercase;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-prompt {
+  margin: 0 0 16px;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #000;
+  line-height: 1.35;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-edit-card {
+  padding: 14px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  background: #ebebed;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fff;
+  font-size: 1rem;
+  outline: none;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
+ion-modal.cd-prompt-modal .cd-link {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #5484b0;
+  cursor: pointer;
+}
+
+ion-modal.cd-prompt-modal .cd-link-block {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 14px;
+}
+
+ion-modal.cd-prompt-modal .cd-apply {
+  border: 0;
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: #5484b0;
+  color: #fff;
+  cursor: pointer;
+}
+
+ion-modal.cd-prompt-modal .cd-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+ion-modal.cd-prompt-modal .cd-btn-outline,
+ion-modal.cd-prompt-modal .cd-btn-solid {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+ion-modal.cd-prompt-modal .cd-btn-outline {
+  border: 1.5px solid #5484b0;
+  background: #fff;
+  color: #5484b0;
+
+  ion-icon {
+    font-size: 1.1rem;
+  }
+}
+
+ion-modal.cd-prompt-modal .cd-btn-solid {
+  border: 0;
+  background: #5484b0;
+  color: #fff;
+
+  ion-icon {
+    font-size: 1.05rem;
+  }
+}

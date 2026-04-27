@@ -15,9 +15,18 @@ export interface UserProfile {
   id: string;
   displayName: string;
   bio?: string;
+  phone?: string;
+  photoUrl?: string;
 }
 
 export interface AppSettingsPayload {
   notificationsEnabled?: boolean;
   theme?: 'system' | 'light' | 'dark';
+}
+
+/** Response shape from `POST .../auth/login` (Exsample). */
+export interface AuthLoginResponse {
+  accessToken?: string;
+  refreshToken?: string;
+  user?: unknown;
 }

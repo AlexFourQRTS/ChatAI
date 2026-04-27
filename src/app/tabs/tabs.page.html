@@ -1,6 +1,6 @@
 <ion-tabs>
   <ion-router-outlet></ion-router-outlet>
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar slot="bottom" class="app-tab-bar">
     @for (t of tabs; track t.tab) {
       <ion-tab-button [tab]="t.tab" [href]="t.href">
         <ion-icon aria-hidden="true" [name]="t.icon"></ion-icon>

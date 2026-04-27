@@ -8,7 +8,17 @@ export const routes: Routes = [
     children: [
       {
         path: 'chats',
-        loadComponent: () => import('../pages/chats/chats.page').then((m) => m.ChatsPage),
+        loadComponent: () => import('../pages/chats/chats-shell.page').then((m) => m.ChatsShellPage),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('../pages/chats/chats.page').then((m) => m.ChatsPage),
+          },
+          {
+            path: 'thread/:id',
+            loadComponent: () => import('../pages/chats/chat-detail.page').then((m) => m.ChatDetailPage),
+          },
+        ],
       },
       {
         path: 'contacts',
@@ -17,10 +27,6 @@ export const routes: Routes = [
       {
         path: 'settings',
         loadComponent: () => import('../pages/settings/settings.page').then((m) => m.SettingsPage),
-      },
-      {
-        path: 'profile',
-        loadComponent: () => import('../pages/profile/profile.page').then((m) => m.ProfilePage),
       },
       {
         path: '',
