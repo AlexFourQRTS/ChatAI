@@ -1,0 +1,114 @@
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+/* Tokens aligned with `src/Design` mockups */
+$design-surface: #f2f2f2;
+$design-primary: #5b80ac;
+$design-primary-hover: #4d6e96;
+$design-primary-pressed: #446080;
+$design-text: #0a0a0a;
+$design-muted: #6b6b6b;
+$design-legal: #5c5c5c;
+
+.welcome-root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: $design-surface;
+  color: $design-text;
+  -webkit-font-smoothing: antialiased;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: max(2.5rem, env(safe-area-inset-top));
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.welcome-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.welcome-title {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: $design-text;
+}
+
+.welcome-tagline {
+  margin: 1.25rem 0 0;
+  max-width: 20rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: $design-muted;
+}
+
+.welcome-tagline + .welcome-tagline {
+  margin-top: 0.25rem;
+}
+
+.welcome-footer {
+  width: 100%;
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+  flex-shrink: 0;
+}
+
+.welcome-cta {
+  display: flex;
+  width: 100%;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 9999px;
+  background: $design-primary;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(91, 128, 172, 0.35);
+  transition:
+    background 0.15s ease,
+    transform 0.12s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    background: $design-primary-hover;
+  }
+
+  &:active {
+    transform: scale(0.99);
+    background: $design-primary-pressed;
+  }
+
+  ion-icon {
+    font-size: 1.25rem;
+    color: #fff;
+    pointer-events: none;
+  }
+}
+
+.welcome-legal {
+  margin: 1.5rem auto 0;
+  max-width: 18rem;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.5;
+  color: $design-legal;
+}

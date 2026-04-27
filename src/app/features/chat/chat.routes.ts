@@ -1,8 +1,8 @@
 import type { Route } from '@angular/router';
 
 /**
- * «Чаты»: список и диалог — соседние дочерние маршруты shell (`/chats`, `/chats/thread/:id`), один
- * `ion-router-outlet` на корневом layout (второй outlet внутрь страницы не вкладывать).
+ * Chats: list + thread as sibling child routes (`/chats`, `/chats/thread/:id`) under the root shell
+ * `ion-router-outlet` (do not nest a second outlet inside a page).
  */
 export const chatTabRoutes: Route[] = [
   {

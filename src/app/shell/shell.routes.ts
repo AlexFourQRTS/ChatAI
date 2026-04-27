@@ -2,9 +2,7 @@ import { Routes } from '@angular/router';
 import { chatTabRoutes } from '../features/chat/chat.routes';
 import { ShellPage } from './shell.page';
 
-/**
- * Корневой layout: нижний navbar + дочерние экраны (`/chats`, `/contacts`, …).
- */
+/** Root layout: bottom navbar + main screens (`/chats`, `/contacts`, …). */
 export const routes: Routes = [
   {
     path: '',
@@ -27,6 +25,10 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'chats',
         pathMatch: 'full',
+      },
+      {
+        path: '**',
+        redirectTo: 'chats',
       },
     ],
   },

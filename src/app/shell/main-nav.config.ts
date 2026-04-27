@@ -1,7 +1,7 @@
-/** Пункты нижнего navbar (корневые пути приложения). */
+/** Bottom navbar items (app root paths). */
 export interface MainNavItem {
   readonly routerLink: string;
-  /** Подсветка, если URL равен или начинается с префикса (для `/chats/thread/:id`). */
+  /** Active when URL equals or starts with this prefix (e.g. `/chats/thread/:id`). */
   readonly activeUrlPrefix: string;
   readonly label: string;
   readonly icon: string;
@@ -29,7 +29,7 @@ export const MAIN_NAV: readonly MainNavItem[] = [
   {
     routerLink: '/lab',
     activeUrlPrefix: '/lab',
-    label: 'Песочница',
+    label: 'Lab',
     icon: 'flask-outline',
   },
 ];

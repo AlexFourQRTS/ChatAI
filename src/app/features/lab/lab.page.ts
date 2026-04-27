@@ -81,14 +81,14 @@ export class LabPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.journal.set(loadLabJournal());
-    console.log(LAB, 'ngOnInit — см. комментарий в lab.page.ts (ссылки на доки)', {
+    console.log(LAB, 'ngOnInit — see doc links in lab.page.ts header comment', {
       scrollRows: this.scrollRows.length,
       journalEntries: this.journal().length,
       href: typeof location !== 'undefined' ? location.href : '(no location)',
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '(no navigator)',
       toastCtrl: this.toastCtrl?.constructor?.name ?? 'null',
       httpClient: this.http?.constructor?.name ?? 'null',
-      note: 'HttpClient в приложении может иметь глобальные interceptors (main.ts), не из лаборатории.',
+      note: 'App HttpClient may use global interceptors from main.ts.',
     });
   }
 
@@ -147,9 +147,9 @@ export class LabPage implements OnInit, OnDestroy {
     const detail = this.journalDetailDraft().trim();
     if (!tried.length) {
       this.appendJournalAuto({
-        tried: 'Ручная запись в журнал',
+        tried: 'Manual journal entry',
         outcome: 'fail',
-        detail: 'Поле «Что пробовали» пустое — не сохранено.',
+        detail: '"What you tried" is empty — not saved.',
       });
       return;
     }
@@ -172,13 +172,13 @@ export class LabPage implements OnInit, OnDestroy {
   journalOutcomeLabel(o: LabJournalOutcome): string {
     switch (o) {
       case 'ok':
-        return 'сработало';
+        return 'OK';
       case 'fail':
-        return 'не сработало';
+        return 'Failed';
       case 'partial':
-        return 'частично';
+        return 'Partial';
       case 'info':
-        return 'инфо';
+        return 'Info';
       default:
         return o;
     }
@@ -200,7 +200,18 @@ export class LabPage implements OnInit, OnDestroy {
   }
 
   formatJournalAt(iso: string): string {
-    return iso.length >= 16 ? iso.slice(0, 16).replace('T', ' ') : iso;
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) {
+      return iso;
+    }
+    return d.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
   }
 
   async copyJournalJson(): Promise<void> {
@@ -208,13 +219,13 @@ export class LabPage implements OnInit, OnDestroy {
     try {
       await navigator.clipboard.writeText(text);
       this.appendJournalAuto({
-        tried: 'Экспорт журнала',
+        tried: 'Export journal',
         outcome: 'ok',
-        detail: 'JSON скопирован в буфер обмена.',
+        detail: 'JSON copied to clipboard.',
       });
     } catch (e) {
       this.appendJournalAuto({
-        tried: 'Экспорт журнала',
+        tried: 'Export journal',
         outcome: 'fail',
         detail: e instanceof Error ? e.message : String(e),
       });
@@ -229,7 +240,7 @@ export class LabPage implements OnInit, OnDestroy {
     this.log('count updated', { after });
     try {
       const toast = await this.toastCtrl.create({
-        message: `Счётчик: ${after}`,
+        message: `Count: ${after}`,
         duration: 1200,
         position: 'bottom',
       });
@@ -238,7 +249,7 @@ export class LabPage implements OnInit, OnDestroy {
       this.appendJournalAuto({
         tried: 'ToastController.create + present',
         outcome: 'ok',
-        detail: `Счётчик после тапа: ${after}.`,
+        detail: `Count after tap: ${after}.`,
       });
     } catch (e) {
       this.logErr('onPrimaryTap toast', e);
@@ -252,12 +263,12 @@ export class LabPage implements OnInit, OnDestroy {
 
   onSecondaryTap(): void {
     const n = this.buttonTapCount();
-    this.log('onSecondaryTap (ion-button click, без тоста)', { was: n });
+    this.log('onSecondaryTap (ion-button click, no toast)', { was: n });
     this.buttonTapCount.update((c) => c + 1);
     this.appendJournalAuto({
-      tried: 'ion-button (click), без тоста',
+      tried: 'ion-button (click), no toast',
       outcome: 'ok',
-      detail: `Счётчик было ${n}, стало ${n + 1}.`,
+      detail: `Count was ${n}, now ${n + 1}.`,
     });
   }
 
@@ -266,20 +277,20 @@ export class LabPage implements OnInit, OnDestroy {
     this.log('resetButtonTaps', { was });
     this.buttonTapCount.set(0);
     this.appendJournalAuto({
-      tried: 'Сброс счётчика тапов',
+      tried: 'Reset tap counter',
       outcome: 'info',
-      detail: `Было ${was}, стало 0.`,
+      detail: `Was ${was}, now 0.`,
     });
   }
 
   onNativeProbeTap(): void {
     const n = this.buttonTapCount();
-    this.log('onNativeProbeTap (нативный <button>, MDN UI Events)', { was: n });
+    this.log('onNativeProbeTap (native <button>, MDN UI Events)', { was: n });
     this.buttonTapCount.update((c) => c + 1000);
     this.appendJournalAuto({
-      tried: 'Нативная <button> (+1000)',
+      tried: 'Native <button> (+1000)',
       outcome: 'ok',
-      detail: `Счётчик было ${n}, стало ${n + 1000}.`,
+      detail: `Count was ${n}, now ${n + 1000}.`,
     });
   }
 
@@ -300,7 +311,7 @@ export class LabPage implements OnInit, OnDestroy {
         this.appendJournalAuto({
           tried: 'Fetch GET jsonplaceholder /posts/1',
           outcome: 'fail',
-          detail: `HTTP ${res.status}, ${ms} ms. Тело (начало): ${text.slice(0, 120)}`,
+          detail: `HTTP ${res.status}, ${ms} ms. Body (start): ${text.slice(0, 120)}`,
         });
         return;
       }
@@ -344,7 +355,7 @@ export class LabPage implements OnInit, OnDestroy {
       this.appendJournalAuto({
         tried: 'HttpClient.get jsonplaceholder /posts/1',
         outcome: 'ok',
-        detail: `${ms} ms, ключи: ${Object.keys(data).join(', ')}.`,
+        detail: `${ms} ms, keys: ${Object.keys(data).join(', ')}.`,
       });
     } catch (err: unknown) {
       this.logErr('runAngularHttpGetDemo', err);

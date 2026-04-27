@@ -1,5 +1,6 @@
 import { addIcons } from 'ionicons';
 import {
+  arrowForwardOutline,
   bookmarkOutline,
   cameraOutline,
   chatbubbleOutline,
@@ -33,6 +34,7 @@ import {
 /** Call once at bootstrap so `ion-icon` works on lazy-loaded routes too. */
 export function registerAppIonIcons(): void {
   addIcons({
+    arrowForwardOutline,
     chatbubblesOutline,
     chatbubbleOutline,
     peopleOutline,

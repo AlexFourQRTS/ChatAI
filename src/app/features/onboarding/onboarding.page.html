@@ -1,0 +1,89 @@
+<div class="ob-r" role="main">
+  <div class="ob-i">
+    @if (step() === 1) {
+      <div class="ob-s">
+        <div class="ob-m">
+          <h1 class="ob-h">Phone number</h1>
+          <p class="ob-u">We&rsquo;ll send you a verification code</p>
+          <div class="ob-w">
+            <label class="ob-l" for="ob-phone">Phone</label>
+            <input
+              id="ob-phone"
+              class="ob-f"
+              type="tel"
+              inputmode="numeric"
+              autocomplete="tel-national"
+              [value]="phoneDisplay()"
+              (input)="onPhoneInput($event)"
+            />
+          </div>
+        </div>
+        <div class="ob-a">
+          <button type="button" class="ob-z" (click)="nextFromPhone()">
+            Continue
+            <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+      </div>
+    } @else if (step() === 2) {
+      <div class="ob-s">
+        <button type="button" class="ob-b" (click)="backToPhone()">Back</button>
+        <div class="ob-m">
+          <h1 class="ob-h">What&rsquo;s your name?</h1>
+          <p class="ob-u">This is what your contacts will see</p>
+          <div class="ob-w">
+            <label class="ob-l" for="ob-name">Your name</label>
+            <input
+              id="ob-name"
+              class="ob-f"
+              type="text"
+              autocomplete="name"
+              placeholder=""
+              [value]="nameDraft()"
+              (input)="onNameInput($event)"
+            />
+          </div>
+        </div>
+        <div class="ob-a">
+          <button type="button" class="ob-z" [disabled]="!nameOk()" (click)="nextFromName()">
+            Continue
+            <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div class="ob-s">
+        <button type="button" class="ob-b" (click)="backToName()">Back</button>
+        <div class="ob-m">
+          <h1 class="ob-h">Profile photo</h1>
+          <p class="ob-u">Add a photo so your contacts can recognize you</p>
+          <div class="ob-av">
+            <div class="ob-av-r">
+              @if (photoPreview(); as src) {
+                <img [src]="src" alt="" />
+              } @else {
+                <ion-icon class="ob-av-i" name="person-outline" aria-hidden="true"></ion-icon>
+              }
+              <label class="ob-av-f">
+                <ion-icon name="camera-outline" aria-hidden="true"></ion-icon>
+                <input class="sr-only" type="file" accept="image/jpeg,image/png,image/webp" (change)="onPickPhoto($event)" />
+              </label>
+            </div>
+          </div>
+          <button type="button" class="ob-sk" (click)="skipPhoto()">Skip for now</button>
+        </div>
+        @if (photoError(); as err) {
+          <p style="margin:0 0 0.75rem;width:100%;max-width:28rem;text-align:center;font:.8125rem/1.4 system-ui,sans-serif;color:#e11d48" role="alert">
+            {{ err }}
+          </p>
+        }
+        <div class="ob-a">
+          <button type="button" class="ob-z" (click)="finishWithPhoto()">
+            Finish
+            <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

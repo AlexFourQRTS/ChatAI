@@ -1,7 +1,7 @@
 <div class="app-shell">
   <ion-router-outlet class="app-shell__outlet"></ion-router-outlet>
 
-  <nav class="app-bottom-nav" aria-label="Основная навигация">
+  <nav class="app-bottom-nav" aria-label="Main navigation">
     @for (item of navItems; track item.routerLink) {
       <a
         [routerLink]="item.routerLink"
