@@ -1,5 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { loadOnboardingState, saveOnboardingState } from './onboarding.storage';
+import { clearOnboardingState, loadOnboardingState, saveOnboardingState } from './onboarding.storage';
+import { ONBOARDING_INITIAL } from './onboarding.types';
 import type { OnboardingState } from './onboarding.types';
 
 const PHOTO_MAX_BYTES = 450_000;
@@ -55,6 +56,11 @@ export class OnboardingService {
       ...cur,
       completedAt: new Date().toISOString(),
     });
+  }
+
+  reset(): void {
+    clearOnboardingState();
+    this.state.set(ONBOARDING_INITIAL);
   }
 
   photoFileTooLarge(bytes: number): boolean {

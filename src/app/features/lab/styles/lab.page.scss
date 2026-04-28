@@ -6,9 +6,77 @@
 
 ion-content.lab-ion-content {
   --background: transparent;
+  --overflow: auto;
 }
 
 :host ion-toolbar.lab-ion-toolbar {
   --background: transparent;
   --border-width: 0;
+}
+
+ion-content.lab-ion-content::part(scroll) {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
+.lab-scroll-box {
+  max-height: 180px;
+  border: 1px solid rgba(113, 113, 122, 0.25);
+  border-radius: 12px;
+  background: rgba(244, 244, 245, 0.75);
+}
+
+.lab-scroll-box--auto {
+  overflow-y: auto;
+}
+
+.lab-scroll-box--touch {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+}
+
+.lab-scroll-box--snap {
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+.lab-scroll-row {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-bottom: 1px solid rgba(113, 113, 122, 0.2);
+  font-size: 0.85rem;
+}
+
+.lab-scroll-row--snap {
+  scroll-snap-align: start;
+}
+
+.lab-textarea-scroll {
+  width: 100%;
+  min-height: 170px;
+  resize: vertical;
+  border-radius: 12px;
+  border: 1px solid rgba(113, 113, 122, 0.35);
+  padding: 10px 12px;
+  background: #fff;
+  color: #18181b;
+}
+
+:host-context(.ion-palette-dark) .lab-scroll-box {
+  background: rgba(15, 23, 42, 0.75);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+:host-context(.ion-palette-dark) .lab-scroll-row {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+:host-context(.ion-palette-dark) .lab-textarea-scroll {
+  background: #0f172a;
+  color: #f4f4f5;
+  border-color: rgba(255, 255, 255, 0.2);
 }

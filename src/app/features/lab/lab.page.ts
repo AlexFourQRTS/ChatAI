@@ -15,13 +15,16 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild, signal } from '@angular/core';
 import { firstValueFrom, take } from 'rxjs';
 import {
+  IonBackButton,
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
+  IonModal,
   IonSpinner,
   IonTitle,
   IonToolbar,
@@ -53,17 +56,26 @@ const JSON_PLACEHOLDER_POST_1 = 'https://jsonplaceholder.typicode.com/posts/1' a
     IonHeader,
     IonToolbar,
     IonTitle,
+    IonButtons,
+    IonBackButton,
     IonContent,
     IonButton,
     IonIcon,
+    IonModal,
     IonSpinner,
   ],
 })
 export class LabPage implements OnInit, OnDestroy {
+  @ViewChild(IonContent) private readonly content?: IonContent;
+  @ViewChild('scrollBoxAuto') private readonly scrollBoxAuto?: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollBoxTouch') private readonly scrollBoxTouch?: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollBoxSnap') private readonly scrollBoxSnap?: ElementRef<HTMLDivElement>;
+
   private readonly http = inject(HttpClient);
   private readonly toastCtrl = inject(ToastController);
 
   readonly scrollRows = LAB_SCROLL_DEMO_ROWS;
+  readonly scrollProbeRows = Array.from({ length: 60 }, (_, i) => `Scroll item ${i + 1}`);
 
   readonly buttonTapCount = signal(0);
 
@@ -78,6 +90,11 @@ export class LabPage implements OnInit, OnDestroy {
   readonly journalTriedDraft = signal('');
   readonly journalDetailDraft = signal('');
   readonly journalOutcomeDraft = signal<LabJournalOutcome>('fail');
+
+  readonly scrollModalOpen = signal(false);
+  readonly animationPulse = signal(false);
+  readonly soundStatus = signal('Idle');
+  readonly selectedImages = signal<readonly string[]>([]);
 
   ngOnInit(): void {
     this.journal.set(loadLabJournal());
@@ -228,6 +245,181 @@ export class LabPage implements OnInit, OnDestroy {
         tried: 'Export journal',
         outcome: 'fail',
         detail: e instanceof Error ? e.message : String(e),
+      });
+    }
+  }
+
+  openScrollModal(): void {
+    this.scrollModalOpen.set(true);
+    this.appendJournalAuto({
+      tried: 'Open scroll modal',
+      outcome: 'info',
+      detail: 'Opened modal with long scroll content.',
+    });
+  }
+
+  closeScrollModal(): void {
+    this.scrollModalOpen.set(false);
+  }
+
+  triggerAnimationDemo(): void {
+    this.animationPulse.set(false);
+    setTimeout(() => this.animationPulse.set(true), 0);
+    setTimeout(() => this.animationPulse.set(false), 900);
+    this.appendJournalAuto({
+      tried: 'Animation demo',
+      outcome: 'ok',
+      detail: 'Pulse animation triggered for LAB card.',
+    });
+  }
+
+  async playTestSound(): Promise<void> {
+    try {
+      const Ctx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!Ctx) {
+        this.soundStatus.set('AudioContext is not supported');
+        return;
+      }
+      const ctx = new Ctx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = 620;
+      gain.gain.value = 0.04;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.22);
+      this.soundStatus.set('Played 220ms test tone');
+      setTimeout(() => void ctx.close(), 300);
+      this.appendJournalAuto({
+        tried: 'Play test sound',
+        outcome: 'ok',
+        detail: 'WebAudio oscillator tone played.',
+      });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      this.soundStatus.set(msg);
+      this.appendJournalAuto({
+        tried: 'Play test sound',
+        outcome: 'fail',
+        detail: msg,
+      });
+    }
+  }
+
+  onImageFilesSelected(ev: Event): void {
+    const input = ev.target as HTMLInputElement;
+    const files = Array.from(input.files ?? []);
+    const names = files.map((f) => `${f.name} (${Math.round(f.size / 1024)} KB)`);
+    this.selectedImages.set(names);
+    input.value = '';
+    this.appendJournalAuto({
+      tried: 'Pick images from file explorer',
+      outcome: names.length ? 'ok' : 'info',
+      detail: names.length ? `Selected: ${names.join(', ')}` : 'No files selected.',
+    });
+  }
+
+  async runHapticProbe(): Promise<void> {
+    if (typeof navigator === 'undefined' || typeof navigator.vibrate !== 'function') {
+      this.appendJournalAuto({
+        tried: 'Haptic probe',
+        outcome: 'fail',
+        detail: 'Vibration API is unavailable in this environment.',
+      });
+      return;
+    }
+    navigator.vibrate([120, 50, 120]);
+    this.appendJournalAuto({
+      tried: 'Haptic probe',
+      outcome: 'ok',
+      detail: 'Triggered vibration pattern.',
+    });
+  }
+
+  async copyDebugSnapshot(): Promise<void> {
+    const payload = {
+      href: typeof location !== 'undefined' ? location.href : '',
+      ua: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+      timestamp: new Date().toISOString(),
+      taps: this.buttonTapCount(),
+      journalEntries: this.journal().length,
+    };
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+      this.appendJournalAuto({
+        tried: 'Copy debug snapshot',
+        outcome: 'ok',
+        detail: 'Device/runtime payload copied to clipboard.',
+      });
+    } catch (err) {
+      this.appendJournalAuto({
+        tried: 'Copy debug snapshot',
+        outcome: 'fail',
+        detail: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
+
+  async scrollLabToTop(): Promise<void> {
+    await this.content?.scrollToTop(300);
+    this.appendJournalAuto({
+      tried: 'Scroll lab to top',
+      outcome: 'info',
+      detail: 'ion-content scrollToTop(300) called.',
+    });
+  }
+
+  async scrollLabToBottom(): Promise<void> {
+    await this.content?.scrollToBottom(300);
+    this.appendJournalAuto({
+      tried: 'Scroll lab to bottom',
+      outcome: 'info',
+      detail: 'ion-content scrollToBottom(300) called.',
+    });
+  }
+
+  scrollDivTop(kind: 'auto' | 'touch' | 'snap'): void {
+    const el = this.pickScrollHost(kind);
+    if (!el) return;
+    el.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  scrollDivBottom(kind: 'auto' | 'touch' | 'snap'): void {
+    const el = this.pickScrollHost(kind);
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+  }
+
+  private pickScrollHost(kind: 'auto' | 'touch' | 'snap'): HTMLDivElement | null {
+    if (kind === 'auto') {
+      return this.scrollBoxAuto?.nativeElement ?? null;
+    }
+    if (kind === 'touch') {
+      return this.scrollBoxTouch?.nativeElement ?? null;
+    }
+    return this.scrollBoxSnap?.nativeElement ?? null;
+  }
+
+  async showQuickToast(): Promise<void> {
+    try {
+      const toast = await this.toastCtrl.create({
+        message: 'LAB quick toast',
+        duration: 900,
+        position: 'top',
+      });
+      await toast.present();
+      this.appendJournalAuto({
+        tried: 'Quick toast',
+        outcome: 'ok',
+        detail: 'Top toast was shown.',
+      });
+    } catch (err) {
+      this.appendJournalAuto({
+        tried: 'Quick toast',
+        outcome: 'fail',
+        detail: err instanceof Error ? err.message : String(err),
       });
     }
   }

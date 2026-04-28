@@ -36,3 +36,10 @@ export function saveOnboardingState(state: OnboardingState): void {
     /* квота */
   }
 }
+
+export function clearOnboardingState(): void {
+  if (typeof localStorage === 'undefined') {
+    return;
+  }
+  localStorage.removeItem(ONBOARDING_STORAGE_KEY);
+}

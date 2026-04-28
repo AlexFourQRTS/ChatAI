@@ -5,6 +5,7 @@ export interface MainNavItem {
   readonly activeUrlPrefix: string;
   readonly label: string;
   readonly icon: string;
+  readonly requiresDeveloperMode?: boolean;
 }
 
 export const MAIN_NAV: readonly MainNavItem[] = [
@@ -31,5 +32,6 @@ export const MAIN_NAV: readonly MainNavItem[] = [
     activeUrlPrefix: '/lab',
     label: 'Lab',
     icon: 'flask-outline',
+    requiresDeveloperMode: true,
   },
 ];

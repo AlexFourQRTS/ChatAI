@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { IonIcon, IonRouterOutlet } from '@ionic/angular/standalone';
+import { DeveloperModeService } from '../core/developer-mode.service';
 import { MAIN_NAV, type MainNavItem } from './main-nav.config';
 
 @Component({
@@ -11,8 +12,16 @@ import { MAIN_NAV, type MainNavItem } from './main-nav.config';
 })
 export class ShellPage {
   private readonly router = inject(Router);
+  private readonly devMode = inject(DeveloperModeService);
 
-  readonly navItems = MAIN_NAV;
+  readonly navItems = computed(() =>
+    MAIN_NAV.filter((item) => {
+      if (!item.requiresDeveloperMode) {
+        return true;
+      }
+      return this.devMode.enabled();
+    }),
+  );
 
   isNavActive(item: MainNavItem): boolean {
     const path = this.router.url.split('?')[0];

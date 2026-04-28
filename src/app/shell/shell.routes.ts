@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
 import { chatTabRoutes } from '../features/chat/chat.routes';
+import { DeveloperModeService } from '../core/developer-mode.service';
 import { ShellPage } from './shell.page';
+
+const developerModeCanAccessLab = () => inject(DeveloperModeService).enabled();
 
 /** Root layout: bottom navbar + main screens (`/chats`, `/contacts`, …). */
 export const routes: Routes = [
@@ -19,6 +23,7 @@ export const routes: Routes = [
       },
       {
         path: 'lab',
+        canMatch: [developerModeCanAccessLab],
         loadComponent: () => import('../features/lab/lab.page').then((m) => m.LabPage),
       },
       {

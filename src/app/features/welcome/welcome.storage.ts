@@ -13,3 +13,10 @@ export function acceptWelcome(): void {
   }
   localStorage.setItem(WELCOME_ACCEPTED_KEY, '1');
 }
+
+export function clearWelcomeAcceptance(): void {
+  if (typeof localStorage === 'undefined') {
+    return;
+  }
+  localStorage.removeItem(WELCOME_ACCEPTED_KEY);
+}
